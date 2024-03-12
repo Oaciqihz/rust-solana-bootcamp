@@ -34,7 +34,7 @@
     - Beyond the Basics
       - [Environment variables in Solana programs](./zh-chs/env-variables.md)
       - [Solana Pay]()
-      - [Versioned transactions and lookup tables]()
+      - [Versioned transactions and lookup tables](./zh-chs/versioned-transaction.md)
       - [Rust procedural macros](./zh-chs/rust-macros.md)
     - Solana Program Security 
       - [How to approach the Program Security unit](./zh-chs/security-intro.md)
