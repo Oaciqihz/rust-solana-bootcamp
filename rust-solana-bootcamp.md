@@ -588,7 +588,7 @@ Rust 语言支持泛型编程，在实际操作中会大量涉及到泛型。泛
 
     // 2 泛型如何使用
 
-    // 2.1 集合 Vec<T>
+    // 2.1 集合 Vec<T/>
     // 集合vector就是由泛型提供支持的,它允许我们使用某个具体类型时再指定
 
     let v1: Vec<u8> = Vec::new();
@@ -600,7 +600,7 @@ Rust 语言支持泛型编程，在实际操作中会大量涉及到泛型。泛
     // 可以声明一个泛型结构体，然后再使用的时候在指定成员的具体类型
     // 注意：必须先在` <> `中声明泛型参数，然后才能使用
 
-    struct Type<T>(T);
+    struct Type<T/>(T);
     struct Point<A, B> {
         a: A,
         b: B,
@@ -1092,7 +1092,7 @@ Rust 是一门静态类型语言，这意味着所有变量在编译期必须是
 | 类型         | 描述                                                                                       |
 | ------------ | ------------------------------------------------------------------------------------------ |
 | 字符串类型   | str, 本质上是一个 u8 类型的数据序列，实际中经常使用的形式：&str 和 String                  |
-| 切片类型     | [T], 它代表类型为 `T` 的元素组成的数据序列：实际中经常使用的形式： Vec<T>                  |
+| 切片类型     | [T], 它代表类型为 `T` 的元素组成的数据序列：实际中经常使用的形式： Vec<T/>                  |
 | trait object | trait object 的大小只有在运行时才能确定（可以先不用了解，关于 trait 的内容后面会继续讲解） |
 | ...          | ...                                                                                        |
 
@@ -1202,7 +1202,7 @@ fn main() {
     // 2 所有权与slice
 
     // 上面的字符串str 实际上是一个特殊的 slice, 它仅代表有效的utf-8序列
-    // 而切片中可以包含任何类型的元素，如其他基础类型、自定义类型等, 正如不直接使用 str一样，我们也不直接使用[T],而是使用它的指针（引用）类型，Vec<T>
+    // 而切片中可以包含任何类型的元素，如其他基础类型、自定义类型等, 正如不直接使用 str一样，我们也不直接使用[T],而是使用它的指针（引用）类型，Vec<T/>
     // slice中的数据也存放在堆上，Rust中slice内存管理逻辑同存放在堆上的str
 
     // vec 有两种创建方式：使用宏或者方法
@@ -1229,7 +1229,7 @@ fn main() {
 
 ### 2.1.3 所有权共享
 
-所有权规则更像是对资源的独占，在实际场景中，你可能希望多个角色共享访问某个动态资源。Rust 提供了两个容器类型 Rc<T>和 Arc<T>，可以让你同时让多个变量拥有动态数据的所有权
+所有权规则更像是对资源的独占，在实际场景中，你可能希望多个角色共享访问某个动态资源。Rust 提供了两个容器类型 Rc<T/>和 Arc<T/>，可以让你同时让多个变量拥有动态数据的所有权
 
 ```rust
     // 1 独占访问资源
@@ -1246,7 +1246,7 @@ fn main() {
     use std::rc::Rc;
     use std::sync::Arc;
 
-    // 2 所有权与共享容器 Rc<T>,它适用于单线程
+    // 2 所有权与共享容器 Rc<T/>,它适用于单线程
 
     // 使用共享容器包裹动态资源
 
@@ -1262,7 +1262,7 @@ fn main() {
     println!("{:?}", role1); // [1,2]
     println!("{:?}", role2); // [1,2]
 
-    // 3 所有权共享容器 Arc<T>，它适用于多线程
+    // 3 所有权共享容器 Arc<T/>，它适用于多线程
 
     let dynamic_source = String::from("rust");
 
@@ -1277,7 +1277,7 @@ fn main() {
     println!("{:?}", role2); // rust
 
     // 4 共享容器与内存管理
-    // 注意：Rc<T>和Arc<T>实际上是一种引用计数，每使用clone方法一次，引用计数就会+1，当变量离开作用域时，引用计数会-1，当引用计数为0时，堆内存会被释放
+    // 注意：Rc<T/>和Arc<T/>实际上是一种引用计数，每使用clone方法一次，引用计数就会+1，当变量离开作用域时，引用计数会-1，当引用计数为0时，堆内存会被释放
     // 整个过程在编译器看来，每个变量都拥有一个Rc或者Arc。所以并不违反所有权规则
     // 这里提一点:一般情况下，Rust使用栈来管理堆内存。但是Rc和Arc是一种特别的机制，它允许不受栈内存控制的堆内存，也就是允许内存泄露。对于这种泄漏通过引用计数来管理
 
@@ -1687,7 +1687,7 @@ trait既可以作为另一个trait的约束，也可以作为泛型参数的约�
         // do sth
     }
 
-    fn get_weight2<T>(x: T)
+    fn get_weight2<T/>(x: T)
     where
         T: Animal + Food,
     {
@@ -1703,7 +1703,7 @@ trait既可以作为另一个trait的约束，也可以作为泛型参数的约�
     get_weight(p);
 
     // 2 trait object
-    // trait 对象通过指针来创建，如 & 或 Box<T>(一种智能指针，可以把数据存放到堆上)：&dyn Trait or Box<dyn Trait>
+    // trait 对象通过指针来创建，如 & 或 Box<T/>(一种智能指针，可以把数据存放到堆上)：&dyn Trait or Box<dyn Trait>
     // Box是Rust中唯一可以把数据强制分配到堆上的类型
 
     // 静态分发:在编译期通过具体类型实例直接调用方法,编译期单态化
@@ -1831,7 +1831,7 @@ trait 通过方法可以为类型定义一些通用的方法，一个是不用�
     let owner_one = 32;
     let owner_two = owner_one;
 
-    // 但是对于一些动态尺寸大小的类型，比如str和[T],我们在使用它们的指针 String和Vec<T>时，不会发生值的复制，而是会移交所有权
+    // 但是对于一些动态尺寸大小的类型，比如str和[T],我们在使用它们的指针 String和Vec<T/>时，不会发生值的复制，而是会移交所有权
 
     let owner_one = String::from("hello");
     let owner_two = owner_one;
@@ -2262,8 +2262,8 @@ Rust 提供了迭代器 trait,可以实现遍历功能
     }
 
     pub struct Rc<T: ?Sized> {
-        ptr: NonNull<RcBox<T>>,
-        phantom: PhantomData<RcBox<T>>,
+        ptr: NonNull<RcBox<T/>>,
+        phantom: PhantomData<RcBox<T/>>,
     }
     */
 
@@ -2290,9 +2290,9 @@ Rust 提供了迭代器 trait,可以实现遍历功能
     use std::ops::Deref;
 
     #[derive(Debug)]
-    struct MyBox<T>(T);
+    struct MyBox<T/>(T);
 
-    impl<T> Deref for MyBox<T> {
+    impl<T/> Deref for MyBox<T/> {
         type Target = T;
         fn deref(&self) -> &T {
             &self.0
@@ -2347,12 +2347,12 @@ Rust 中有多个智能指针，可以参考下表，这里总结了一个表，
 
 Rust 中对于提供了很多类型，用于处理一些特殊的场景
 
-### 3.2.1 Box <T>
+### 3.2.1 Box <T/>
 
 Box 可以将内存强制分配到堆上，并且它也是智能指针，可以自动解引用和管理堆内存。所以在使用的时候只需要使用它将数据分配到堆上，并不需要再考虑如何释放内存
 
 ```
-// 1 Box<T> 与数据分配
+// 1 Box<T/> 与数据分配
 
     // 在Rust中，你可以使用Box将数据强行存储到堆上
 
@@ -2361,7 +2361,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
 
     // 它也是唯一可以将数据放到堆上的途径
 
-    // 2 Box<T> 是一个智能指针
+    // 2 Box<T/> 是一个智能指针
     // 它实现了Deref和Drop trait
 
     let s = Box::new("rust");
@@ -2374,8 +2374,8 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
     // 3 为什么要把数据存放在堆上？一个链表例子
 
     // 定义链表节点数据结构
-    enum ListNode<T> {
-        Cons(T, Box<ListNode<T>>),
+    enum ListNode<T/> {
+        Cons(T, Box<ListNode<T/>>),
         Nil,
     }
     // 声明三个节点
@@ -2425,7 +2425,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
     // println!("var1: {}, var2: {}", var1, var2);
 
     // 3. 运行期：通过Cell和RefCell实现可变性，也叫内部可变性
-    // 3.1 Cell<T> 的修改和读取
+    // 3.1 Cell<T/> 的修改和读取
     struct Foo {
         x: u32,
         y: Cell<u32>,
@@ -2449,7 +2449,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
     // assert_eq!(vec!["rust".to_owned()], foo.z.get()); 不能使用get方法
     assert_eq!(vec!["rust".to_owned()], foo.z.into_inner());
 
-    // 3.2 RefCell<T> 的修改和读取
+    // 3.2 RefCell<T/> 的修改和读取
     // 通过borrow_mut实现可变性
     // 主要是应用于一些动态大小类型，通过borrow获取值，有运行时开销
 
@@ -2465,11 +2465,11 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
 
 ### 3.2.3 共享容器
 
-共享容器 Rc<T>和 Arc<T>之前在所有权共享中介绍过。通过共享容器我们可以使多个变量拥有所有权（本质上是通过引用计数实现的），从而对资源进行操作。具体示例细节你可以参考之前的代码
+共享容器 Rc<T/>和 Arc<T/>之前在所有权共享中介绍过。通过共享容器我们可以使多个变量拥有所有权（本质上是通过引用计数实现的），从而对资源进行操作。具体示例细节你可以参考之前的代码
 
 ### 3.2.4 特殊类型
 
-**`PhantomData<T>`** ，它通常用于在泛型代码中标记一些类型参数，但不实际使用它们，从而向 Rust 编译器传达有关代码中类型关系的信息。它被称为 “幽灵数据”，因为它不占用任何实际内存空间，只在编译时起作用
+**`PhantomData<T/>`** ，它通常用于在泛型代码中标记一些类型参数，但不实际使用它们，从而向 Rust 编译器传达有关代码中类型关系的信息。它被称为 “幽灵数据”，因为它不占用任何实际内存空间，只在编译时起作用
 
 一般它起两个作用：
 
@@ -2481,13 +2481,13 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
     use std::marker::PhantomData;
     use std::ops::Deref;
 
-    struct MyType<T> {
+    struct MyType<T/> {
         data: *const T,
-        _marker: PhantomData<T>,
+        _marker: PhantomData<T/>,
     }
 
-    impl<T> MyType<T> {
-        fn new(t: T) -> MyType<T> {
+    impl<T/> MyType<T/> {
+        fn new(t: T) -> MyType<T/> {
             MyType {
                 data: &t,
                 _marker: PhantomData,
@@ -2495,7 +2495,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
         }
     }
 
-    impl<T> Deref for MyType<T> {
+    impl<T/> Deref for MyType<T/> {
         type Target = T;
 
         fn deref(&self) -> &Self::Target {
@@ -2503,7 +2503,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
         }
     }
 
-    impl<T> Drop for MyType<T> {
+    impl<T/> Drop for MyType<T/> {
         fn drop(&mut self) {
             println!("Dropping MyType instance!");
         }
@@ -2519,7 +2519,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
     // 执行到这里时，my_instance 将会离开作用域并被销毁，调用我们自定义的 drop 方法。
 ```
 
-**`Pin<T>`**: 通常用于解决 Rust 引用类型的安全性问题，尤其是与异步编程和内存管理相关的问题。`Pin<T>` 类型可以确保被引用的值不会被移动或释放
+**`Pin<T/>`**: 通常用于解决 Rust 引用类型的安全性问题，尤其是与异步编程和内存管理相关的问题。`Pin<T/>` 类型可以确保被引用的值不会被移动或释放
 
 一般情况下：Rust 会确保引用总是有效的，但是也有例外情况：
 
@@ -2527,7 +2527,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
 2. 当使用 `unsafe` 代码时，可能会通过裸指针将引用类型转换为可变引用类型，从而破坏编译器对引用类型的保护
 
 ```rust
-// 2 特殊类型：Pin<T>
+// 2 特殊类型：Pin<T/>
 
   use std::marker::PhantomPinned;
     use std::pin::Pin;
@@ -2580,7 +2580,7 @@ Box 可以将内存强制分配到堆上，并且它也是智能指针，可以�
 Rust 整体的错误处理机制有一个层级，随着错误的`严重程度`可以选择不同的处理方案（其实每一种错误都挺严重的）
 
 1. 类型系统保证函数契约（Rust 严格的类型系统已经帮我们消除了这部分的错误，如果类型不正确，是不会通过编译的）
-2. Option<T>消除空指针失败 (处理有值或者无值的情况)
+2. Option<T/>消除空指针失败 (处理有值或者无值的情况)
 3. Result<T,E> 传播错误 （处理成功或者失败的情况，失败时可以抛出错误）
 4. 断言用于防御
 5. Panic 恐慌
@@ -2594,7 +2594,7 @@ Rust 整体的错误处理机制有一个层级，随着错误的`严重程度`�
     // sum(1u32, 2u32) 违反函数契约
 
     // 2 使用Option处理有值或无值的情况
-    // 当某个值可能为无值时，应该使用Option<T>来包裹，以正确处理无值的情况
+    // 当某个值可能为无值时，应该使用Option<T/>来包裹，以正确处理无值的情况
     fn log(val: f64) -> Option<f64> {
         match val.log2() {
             x if x.is_normal() => Some(x), // 有值情况
@@ -2602,7 +2602,7 @@ Rust 整体的错误处理机制有一个层级，随着错误的`严重程度`�
         }
     }
 
-    // 当一个值为Option<T>时，经常使用map和and_then等方法来链式处理
+    // 当一个值为Option<T/>时，经常使用map和and_then等方法来链式处理
 
     fn double(val: f64) -> f64 {
         val * 2.
@@ -3292,7 +3292,7 @@ fn main() {
 ```bash
 $name:ident：标识符（identifier），如变量名、函数名等。例如：$func_name:ident。
 $e:expr：表达式（expression），如 1 + 2、my_var 等。例如：$my_expression:expr。
-$t:ty：类型（type），如 i32、String、Vec<T> 等。例如：$my_type:ty。
+$t:ty：类型（type），如 i32、String、Vec<T/> 等。例如：$my_type:ty。
 $p:pat：模式（pattern），如用于匹配的字面量、变量、通配符等。例如：$my_pattern:pat。
 $s:stmt：语句（statement），如赋值语句、函数调用等。例如：$my_statement:stmt。
 $b:block：代码块（block），由一对大括号包围的一系列语句。例如：$my_block:block。

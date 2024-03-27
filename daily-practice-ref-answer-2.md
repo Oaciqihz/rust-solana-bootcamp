@@ -19,7 +19,7 @@ fn print_info<T: Debug>(item: T) {
 
 参考代码：
 ```Rust
-fn largest<T>(list: &[T]) -> T
+fn largest<T/>(list: &[T]) -> T
     where T: PartialOrd + Copy {
         let mut  largrst_value = list[0];
         for &item in list.iter() {
@@ -125,7 +125,7 @@ mod tests {
 // 要求支持范型，
 // 并支持指定按升序、降序排序。
 
-// &[T] <=== (Vec<T> [T;n])
+// &[T] <=== (Vec<T/> [T;n])
 
 pub fn bubble_sort<T: Ord> (arr: &mut [T], ascending: bool) {
 
@@ -261,7 +261,7 @@ fn divide(numerator: f64, denominator: f64) -> Result<f64, &'static str> {
 }
 
 // 定义一个函数，获取数组的第一个元素，返回Option
-fn get_first<T>(slice: &[T]) -> Option<&T> {
+fn get_first<T/>(slice: &[T]) -> Option<&T> {
     slice.first()
 }
 

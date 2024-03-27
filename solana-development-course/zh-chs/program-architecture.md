@@ -54,14 +54,14 @@ objectives:
 | u128/i128 | 16 |  |
 | [T;amount] | space(T) * amount | 例如，space([u16;32]) = 2 * 32 = 64 |
 | Pubkey | 32 |  |
-| Vec<T> | 4 + (space(T) * amount) | 账户大小是固定的，因此账户应该从一开始就以足够的空间初始化 |
+| Vec<T/> | 4 + (space(T) * amount) | 账户大小是固定的，因此账户应该从一开始就以足够的空间初始化 |
 | String | 4 + 字符串长度（以字节为单位） | 账户大小是固定的，因此账户应该从一开始就以足够的空间初始化 |
-| Option<T> | 1 + (space(T)) |  |
+| Option<T/> | 1 + (space(T)) |  |
 | Enum | 1 + 最大变体大小 | 例如，枚举 { A, B { val: u8 }, C { val: u16 } } -> 1 + space(u16) = 3 |
 | f32 | 4 | 序列化将在 NaN 时失败 |
 | f64 | 8 | 序列化将在 NaN 时失败 |
-| Accounts | 8 + space(T) | #[account()] <br> pub struct T { … } |
-| 数据结构 | space(T) | #[derive(Clone, AnchorSerialize, AnchorDeserialize)]<br> pub struct T { … } |
+| Accounts | 8 + space(T) | #[account()] <br/> pub struct T { … } |
+| 数据结构 | space(T) | #[derive(Clone, AnchorSerialize, AnchorDeserialize)]<br/> pub struct T { … } |
 
 了解了这些，开始考虑您可能在程序中采取的一些小优化措施。例如，如果您有一个整数字段，它永远不会超过 100，那么不要使用 u64/i64，而应该使用 u8。为什么？因为一个 u64 占用 8 个字节，最大值为 2^64 或 1.84 * 10^19。这是一种空间浪费，因为您只需要容纳最大值为 100 的数字。一个字节将给您一个最大值为 255，在这种情况下已经足够了。类似地，如果永远不会出现负数，那就没有理由使用 i8。
 
@@ -97,7 +97,7 @@ Stack offset of XXXX exceeded max offset of 4096 by XXXX bytes, please minimize 
 
 这与栈有关。在 Solana 中，每次调用函数时，都会获得一个 4KB 的栈帧（stack frame）。这是用于局部变量的静态内存分配。整个 `SomeBigDataStruct` 存储在内存中的位置就是在这里，由于其大小为 5000 字节，即 5KB，超过了 4KB 的限制，因此会引发栈错误。那么我们该如何解决这个问题呢？
 
-答案就是 **`Box<T>`** 类型！
+答案就是 **`Box<T/>`** 类型！
 
 ```rust
 #[account]
@@ -111,7 +111,7 @@ pub struct SomeFunctionContext<'info> {
 }
 ```
 
-在 Anchor 中，**`Box<T>`** 用于将账户分配到堆，而不是栈。这很棒，因为堆为我们提供了 32KB 的空间。最好的部分是，在函数内部您无需进行任何不同的操作。您只需要在所有大数据账户周围添加 `Box<…>` 即可。
+在 Anchor 中，**`Box<T/>`** 用于将账户分配到堆，而不是栈。这很棒，因为堆为我们提供了 32KB 的空间。最好的部分是，在函数内部您无需进行任何不同的操作。您只需要在所有大数据账户周围添加 `Box<…>` 即可。
 
 但是，Box 也并非完美无缺。对于足够大的账户，仍然可能会溢出堆栈。我们将在下一节学习如何解决这个问题。
 
