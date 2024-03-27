@@ -29,7 +29,6 @@
 * [Anchor PDAs and accounts](./zh-chs/anchor-pdas.md)
 * [Anchor CPIs and errors](./zh-chs/anchor-cpi.md)
 * [Environment variables in Solana programs](./zh-chs/env-variables.md)
-<!-- * [Solana Pay]() -->
 * [Versioned transactions and lookup tables](./zh-chs/versioned-transaction.md)
 * [Rust procedural macros](./zh-chs/rust-macros.md)
 * [How to approach the Program Security unit](./zh-chs/security-intro.md)
@@ -39,17 +38,10 @@
 * [Reinitialization attacks](./zh-chs/reinitialization-attacks.md)
 * [Duplicate mutable accounts](./zh-chs/duplicate-mutable-accounts.md)
 * [Type cosplay](./zh-chs/type-cosplay.md)
-<!-- * [Arbitrary CPIs]() -->
 * [Bump seed canonicalization](./zh-chs/bump-seed-canonicalization.md)
 * [Closing accounts and revival attacks](./zh-chs/closing-accounts.md)
 * [PDA sharing](./zh-chs/pda-sharing.md)
 * [Program architecture](./zh-chs/program-architecture.md)
 * [Oracles and oracle networks](./zh-chs/oracles.md)
-<!-- * [Verifiable randomness functions](./../assets/vrf-diagram.png) -->
 * [Compressed NFTs](./zh-chs/compressed-nfts.md)
 * [Generalized State Compression](./zh-chs/generalized-state-compression.md)
-
-<!-- ## Solana Mobile Development 
-* [Introduction to Solana Mobile]()
-* [Exploring Mobile Wallet Adapter]()
-* [Building Solana Mobile dApps with Expo]() -->
